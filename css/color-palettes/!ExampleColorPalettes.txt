@@ -1,0 +1,370 @@
+Misty Rose
+:root {
+  --bg-body: #1c2641;        /* глубокий тёмный фон */
+  --bg-surface: #384566;      /* поверхности карточек */
+  --text-primary: #dbdee7;    /* основной текст (светлый серо-голубой) */
+  --text-secondary: #6a7997;  /* второстепенный текст (приглушённый серо-синий) – для менее важной информации */
+  --accent: #d691c4;          /* акцент (спокойный розовый) – кнопки, ссылки */
+  --accent-hover: #dd3783;    /* акцент при наведении (чуть ярче) */
+  --danger: #dd3783;          /* опасные действия (яркий розовый) */
+  --danger-hover: #73255a;    /* опасные действия при наведении (тёмный бордовый) */
+  --border: #474e86;          /* границы элементов */
+  --success-bg: #0eb5e9;       /* фон для успеха */
+  --success-text: #1c2641;     /* текст на фоне успеха */
+  --warning-bg: #d691c4;       /* фон для предупреждения (мягкий розовый) */
+  --warning-text: #1c2641;     /* текст на фоне предупреждения */
+  --error-bg: #73255a;         /* фон для ошибки */
+  --error-text: #dbdee7;       /* текст на фоне ошибки */
+}
+
+
+1. Классическая синяя (текущая)
+Спокойная и профессиональная, подходит для большинства проектов.
+
+css
+:root {
+  --bg-body: #f5f7fa;
+  --bg-surface: #ffffff;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --accent: #4299e1;
+  --accent-hover: #3182ce;
+  --danger: #f56565;
+  --danger-hover: #e53e3e;
+  --border: #e2e8f0;
+  --success-bg: #c6f6d5;
+  --success-text: #22543d;
+  --warning-bg: #fefcbf;
+  --warning-text: #975a16;
+  --error-bg: #fed7d7;
+  --error-text: #742a2a;
+}
+2. Тёмная тема (элегантная)
+Идеально для работы в условиях низкой освещённости, снижает нагрузку на глаза.
+
+css
+:root {
+  --bg-body: #1a202c;
+  --bg-surface: #2d3748;
+  --text-primary: #f7fafc;
+  --text-secondary: #cbd5e0;
+  --accent: #63b3ed;
+  --accent-hover: #4299e1;
+  --danger: #fc8181;
+  --danger-hover: #f56565;
+  --border: #4a5568;
+  --success-bg: #276749;
+  --success-text: #f0fff4;
+  --warning-bg: #975a16;
+  --warning-text: #fefcbf;
+  --error-bg: #9b2c2c;
+  --error-text: #fed7d7;
+}
+3. Минималистичная (монохром)
+Строгий стиль с оттенками серого и одним ярким акцентом (например, зелёным).
+
+css
+:root {
+  --bg-body: #f9f9f9;
+  --bg-surface: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent: #38a169;
+  --accent-hover: #2f855a;
+  --danger: #e53e3e;
+  --danger-hover: #c53030;
+  --border: #dddddd;
+  --success-bg: #c6f6d5;
+  --success-text: #22543d;
+  --warning-bg: #fefcbf;
+  --warning-text: #975a16;
+  --error-bg: #fed7d7;
+  --error-text: #742a2a;
+}
+4. Тёплая (оранжево‑коричневая)
+Создаёт дружелюбную и уютную атмосферу.
+
+css
+:root {
+  --bg-body: #fef7e9;
+  --bg-surface: #ffffff;
+  --text-primary: #5d3a1a;
+  --text-secondary: #8b6b4d;
+  --accent: #dd6b20;
+  --accent-hover: #c05621;
+  --danger: #e53e3e;
+  --danger-hover: #c53030;
+  --border: #e2c7a7;
+  --success-bg: #e6ffc4;
+  --success-text: #336633;
+  --warning-bg: #fff3cd;
+  --warning-text: #856404;
+  --error-bg: #f8d7da;
+  --error-text: #721c24;
+}
+5. Холодная (мятно‑синяя)
+Освежающий вариант для образовательных или медицинских проектов.
+
+css
+:root {
+  --bg-body: #e6fffa;
+  --bg-surface: #ffffff;
+  --text-primary: #234e52;
+  --text-secondary: #2c7a7b;
+  --accent: #319795;
+  --accent-hover: #2c7a7b;
+  --danger: #e53e3e;
+  --danger-hover: #c53030;
+  --border: #b2f5ea;
+  --success-bg: #c6f6d5;
+  --success-text: #22543d;
+  --warning-bg: #fefcbf;
+  --warning-text: #975a16;
+  --error-bg: #fed7d7;
+  --error-text: #742a2a;
+}
+
+6. Фиолетовая премиум
+Подойдёт для продуктов, связанных с креативом или люксом.
+
+css
+:root {
+  --bg-body: #f5f0ff;
+  --bg-surface: #ffffff;
+  --text-primary: #44337a;
+  --text-secondary: #6b46c1;
+  --accent: #9f7aea;
+  --accent-hover: #805ad5;
+  --danger: #f56565;
+  --danger-hover: #e53e3e;
+  --border: #d6bcfa;
+  --success-bg: #c6f6d5;
+  --success-text: #22543d;
+  --warning-bg: #fefcbf;
+  --warning-text: #975a16;
+  --error-bg: #fed7d7;
+  --error-text: #742a2a;
+}
+
+4. Фиолетовая (креативная / премиум)
+Глубокие фиолетовые оттенки создают ощущение элитарности и творчества. Акцент — насыщенный пурпурный, который хорошо сочетается с тёмным текстом на светлом фоне.
+
+css
+:root {
+  --bg-body: #f5f0fa;
+  --bg-surface: #ffffff;
+  --text-primary: #2d2a3a;
+  --text-secondary: #6b5f7c;
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #e0d9ea;
+  --success-bg: #d1fae5;
+  --success-text: #065f46;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --error-bg: #fee2e2;
+  --error-text: #b91c1c;
+}
+
+5. Тёплая оранжевая (дружелюбная / энергичная)
+Оранжевый акцент добавляет динамики и тепла. Отлично подходит для образовательных платформ и стартапов.
+
+css
+:root {
+  --bg-body: #fff7ed;
+  --bg-surface: #ffffff;
+  --text-primary: #3a2e24;
+  --text-secondary: #7f6b5a;
+  --accent: #f97316;
+  --accent-hover: #ea580c;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #fed7aa;
+  --success-bg: #d1fae5;
+  --success-text: #065f46;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --error-bg: #fee2e2;
+  --error-text: #b91c1c;
+}
+
+6. Холодная мятная (свежая / технологичная)
+Мятно‑бирюзовые тона создают ощущение чистоты и инноваций. Подойдёт для IT‑продуктов и медицинских приложений.
+
+css
+:root {
+  --bg-body: #f0fdfa;
+  --bg-surface: #ffffff;
+  --text-primary: #1e3a3a;
+  --text-secondary: #2d6a6a;
+  --accent: #14b8a6;
+  --accent-hover: #0d9488;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #99f6e4;
+  --success-bg: #d1fae5;
+  --success-text: #065f46;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --error-bg: #fee2e2;
+  --error-text: #b91c1c;
+}
+
+7. Розовая / коралловая (современная / молодёжная)
+Яркий розовый акцент привлекает внимание и выглядит стильно. Хорошо сочетается с нейтральными серыми фонами.
+
+css
+:root {
+  --bg-body: #fdf2f8;
+  --bg-surface: #ffffff;
+  --text-primary: #3b2a36;
+  --text-secondary: #7d5a6e;
+  --accent: #ec4899;
+  --accent-hover: #db2777;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #fbcfe8;
+  --success-bg: #d1fae5;
+  --success-text: #065f46;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+  --error-bg: #fee2e2;
+  --error-text: #b91c1c;
+}
+
+8. Землистая (природная / уютная)
+Приглушённые зелёные и коричневые оттенки создают спокойную, естественную атмосферу. Подходит для экологических проектов или блогов.
+
+css
+:root {
+  --bg-body: #f5f0e8;
+  --bg-surface: #ffffff;
+  --text-primary: #3a3a2e;
+  --text-secondary: #6b5f4d;
+  --accent: #8b9a46;
+  --accent-hover: #6b7b2f;
+  --danger: #b85e5e;
+  --danger-hover: #9b4b4b;
+  --border: #d6cdb8;
+  --success-bg: #e6f0d1;
+  --success-text: #3b5e2b;
+  --warning-bg: #f9eec1;
+  --warning-text: #8a6e2e;
+  --error-bg: #f5d7d7;
+  --error-text: #a14343;
+}
+
+1. Глубокая синяя (спокойная, профессиональная)
+Тёмно-синий фон с холодным оттенком, акцент — яркий голубой. Подходит для корпоративных и технических проектов.
+
+css
+:root {
+  --bg-body: #0b1120;
+  --bg-surface: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #334155;
+  --success-bg: #14532d;
+  --success-text: #d1fae5;
+  --warning-bg: #92400e;
+  --warning-text: #fef3c7;
+  --error-bg: #991b1b;
+  --error-text: #fee2e2;
+}
+
+
+2. Изумрудная (свежая, природная)
+Тёмные зелёные тона, напоминающие лес или изумруд. Акцент — ярко-зелёный, создаёт ощущение роста и стабильности.
+
+css
+:root {
+  --bg-body: #0f172a;
+  --bg-surface: #1e3a2f;
+  --text-primary: #ecfdf5;
+  --text-secondary: #a7f3d0;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #2d5a4a;
+  --success-bg: #14532d;
+  --success-text: #d1fae5;
+  --warning-bg: #92400e;
+  --warning-text: #fef3c7;
+  --error-bg: #991b1b;
+  --error-text: #fee2e2;
+}
+
+
+3. Графитовая (минималистичная, строгая)
+Почти чёрный фон с серыми поверхностями, акцент — стальной синий. Идеально для монохромных интерфейсов с намёком на цвет.
+
+css
+:root {
+  --bg-body: #121212;
+  --bg-surface: #1e1e1e;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a3a3a3;
+  --accent: #60a5fa;
+  --accent-hover: #3b82f6;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #2e2e2e;
+  --success-bg: #14532d;
+  --success-text: #d1fae5;
+  --warning-bg: #92400e;
+  --warning-text: #fef3c7;
+  --error-bg: #991b1b;
+  --error-text: #fee2e2;
+}
+
+
+4. Тёмно-фиолетовая (мистическая, креативная)
+Насыщенный фиолетовый фон с пурпурным акцентом. Создаёт атмосферу творчества и премиальности.
+
+css
+:root {
+  --bg-body: #1a1025;
+  --bg-surface: #2d1f3a;
+  --text-primary: #f3e8ff;
+  --text-secondary: #c4b5fd;
+  --accent: #a78bfa;
+  --accent-hover: #8b5cf6;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #4c3b5e;
+  --success-bg: #14532d;
+  --success-text: #d1fae5;
+  --warning-bg: #92400e;
+  --warning-text: #fef3c7;
+  --error-bg: #991b1b;
+  --error-text: #fee2e2;
+}
+
+5. Тёплая янтарная (энергичная, дружелюбная)
+Тёмный фон с коричневатым отливом, акцент — оранжево-жёлтый. Хорошо смотрится в проектах, связанных с творчеством и образованием.
+
+css
+:root {
+  --bg-body: #1f1a16;
+  --bg-surface: #2f2a24;
+  --text-primary: #fef3c7;
+  --text-secondary: #d6a35a;
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --danger: #ef4444;
+  --danger-hover: #dc2626;
+  --border: #4a4137;
+  --success-bg: #14532d;
+  --success-text: #d1fae5;
+  --warning-bg: #92400e;
+  --warning-text: #fef3c7;
+  --error-bg: #991b1b;
+  --error-text: #fee2e2;
+}

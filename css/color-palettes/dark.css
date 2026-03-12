@@ -1,0 +1,26 @@
+:root {
+    --bg-body: #1a202c;
+    --bg-surface: #2d3748;
+    --text-primary: #f7fafc;
+    --text-secondary: #cbd5e0;
+    --accent: #63b3ed;
+    --accent-hover: #4299e1;
+    --danger: #fc8181;
+    --danger-hover: #f56565;
+    --border: #4a5568;
+    --success-bg: #276749;
+    --success-text: #f0fff4;
+    --warning-bg: #975a16;
+    --warning-text: #fefcbf;
+    --error-bg: #9b2c2c;
+    --error-text: #fed7d7;
+
+    --chart-color-4: #E5F0FF;
+    --chart-color-5: #B8D9FF;
+    --chart-color-3: #8AC2FF;
+    --chart-color-6: #5CABFF;
+    --chart-color-2: #4299E1;
+    --chart-color-7: #2D7AB8;
+    --chart-color-8: #1A5C8F;
+    --chart-color-1: #0A3D66;
+}

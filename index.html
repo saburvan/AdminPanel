@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="fonts/fontawesome-free-7.1.0-web/css/all.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/color-palettes/light.css" class="additionalStyle">
+    <link rel="icon" href="icon/9323925.ico">
+    <script type="module" src="js/theme.js" defer></script>
+    <script src="js/chart.umd.min.js" defer></script>
+    <script src="js/chartjs-plugin-datalabels.js" defer></script>
+    <script type="module" src="js/script.js" defer></script>
+
+    <script>
+        (function () {
+            try {
+                const theme = localStorage.getItem('theme');
+                const link = document.querySelector('.additionalStyle');
+                if (theme && link) {
+                    link.href = 'css/color-palettes/' + theme + '.css';
+                }
+            } catch (e) {
+            }
+        })();
+    </script>
+</head>
+<body>
+<div class="message success">
+    <p id="messageContent">Сообщение</p>
+</div>
+<!-- Экран авторизации -->
+<div id="loginScreen" class="login-screen">
+    <h2><i class="fas fa-lock"></i> Вход в панель</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" name="email" placeholder="admin@example.com">
+            <div class="error-message hidden" id="emailError"><i class="fas fa-exclamation-circle"></i> Некорректный
+                email
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Пароль</label>
+            <input type="password" id="loginPassword" name="password" placeholder="••••••••">
+            <div class="error-message hidden" id="passwordError"><i class="fas fa-exclamation-circle"></i> Пароль
+                обязателен
+            </div>
+        </div>
+        <button type="submit"><i class="fas fa-sign-in-alt"></i> Войти</button>
+    </form>
+</div>
+
+<!-- Админ-панель -->
+<div id="adminPanel" class="admin-panel hidden">
+    <!-- Комбинированная строка: табы + профиль -->
+    <div class="header-row">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="courses"><i class="fas fa-book-open"></i> Курсы</button>
+            <button class="tab-btn" data-tab="students"><i class="fas fa-users"></i> Студенты</button>
+            <button class="tab-btn" data-tab="statistics"><i class="fas fa-chart-bar"></i> Статистика</button>
+        </div>
+        <div class="top-bar top-theme">
+            <div class="theme"><i class="fa fa-palette"></i></div>
+            <div class="color-theme">
+                <p>Цветовые схемы: </p>
+                <div class="wrap-colors">
+                    <div data-theme-name="light" class="theme theme-element light-theme"><i class="fa fa-palette"></i>
+                    </div>
+                    <div data-theme-name="warm" class="theme theme-element warm-theme"><i class="fa fa-palette"></i>
+                    </div>
+                    <div data-theme-name="dark" class="theme theme-element dark-theme"><i class="fa fa-palette"></i>
+                    </div>
+                    <div data-theme-name="rose" class="theme theme-element rose-theme"><i class="fa fa-palette"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="top-bar">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user-shield"></i></div>
+                <span class="user-email"><i class="far fa-envelope"></i> admin@example.com</span>
+            </div>
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Выход</button>
+        </div>
+    </div>
+
+    <!-- Секция КУРСЫ -->
+    <div id="coursesSection" class="section active">
+        <!-- Статистика -->
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-chart-line"></i>
+                <div class="stat-value">12</div>
+                <div class="stat-label">активных курсов</div>
+            </div>
+            <div class="stat-card"><i class="fas fa-video"></i>
+                <div class="stat-value">47</div>
+                <div class="stat-label">уроков</div>
+            </div>
+            <div class="stat-card"><i class="fas fa-users"></i>
+                <div class="stat-value">238</div>
+                <div class="stat-label">студентов</div>
+            </div>
+            <div class="stat-card"><i class="fas fa-clock"></i>
+                <div class="stat-value">168</div>
+                <div class="stat-label">часов контента</div>
+            </div>
+        </div>
+
+        <!-- Заголовок и кнопка (будут меняться) -->
+        <div id="coursesHeader" class="flex-between">
+            <h2><i class="fas fa-graduation-cap"></i> Управление курсами</h2>
+            <button class="btn-primary" id="openCreateCourseModal"><i class="fas fa-plus"></i> Создать курс</button>
+        </div>
+        <div id="lessonsHeader" class="flex-between hidden">
+            <button class="btn-secondary" id="backToCourses"><i class="fas fa-arrow-left"></i> Назад к курсам</button>
+            <h2 id="lessonsHeaderTitle"><i class="fas fa-video"></i> Управление уроками: <span id="currentCourseName">JavaScript</span>
+            </h2>
+            <button class="btn-primary" id="openCreateLessonModal"><i class="fas fa-plus"></i> Добавить урок</button>
+        </div>
+
+        <!-- Список курсов (карточки) -->
+        <div id="coursesList" class="courses-grid">
+            <!-- Курс 1 -->
+            <div class="course-card" data-course-id="c1">
+                <div class="course-thumb"><img src="LaravelAPI/public/img/js.jpg" alt="JS"></div>
+                <div class="course-info">
+                    <div class="course-title">JavaScript с нуля</div>
+                    <div class="course-meta"><i class="far fa-clock"></i> 12 ч</div>
+                    <div class="course-meta">
+                        <i class="fas fa-tag"></i> <span class="price-highlight">5 900 ₽</span>
+                    </div>
+                    <div class="course-meta"><i class="far fa-calendar"></i> 10.02.2025 — 10.04.2025</div>
+                    <div class="course-actions">
+                        <button class="btn-secondary edit-course" data-course-id="c1"><i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-danger delete-course" data-course-id="c1"><i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn-primary view-lessons" data-course-id="c1"><i class="fas fa-eye"></i> Уроки
+                            (5)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Курс 2 -->
+            <div class="course-card" data-course-id="c2">
+                <div class="course-thumb"><img src="LaravelAPI/public/img/react.jpg" alt="React"></div>
+                <div class="course-info">
+                    <div class="course-title">React для продвинутых</div>
+                    <div class="course-meta"><i class="far fa-clock"></i> 10 ч</div>
+                    <div class="course-meta">
+                        <i class="fas fa-tag"></i> <span class="price-highlight">7 900 ₽</span>
+                    </div>
+                    <div class="course-meta"><i class="far fa-calendar"></i> 01.03.2025 — 01.05.2025</div>
+                    <div class="course-actions">
+                        <button class="btn-secondary edit-course" data-course-id="c2"><i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-danger delete-course" data-course-id="c2"><i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn-primary view-lessons" data-course-id="c2"><i class="fas fa-eye"></i> Уроки
+                            (3)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Курс 3 -->
+            <div class="course-card" data-course-id="c3">
+                <div class="course-thumb"><img src="LaravelAPI/public/img/python.jpg" alt="Python"></div>
+                <div class="course-info">
+                    <div class="course-title">Python-разработчик</div>
+                    <div class="course-meta"><i class="far fa-clock"></i> 20 ч</div>
+                    <div class="course-meta">
+                        <i class="fas fa-tag"></i> <span class="price-highlight">9 900 ₽</span>
+                    </div>
+                    <div class="course-meta"><i class="far fa-calendar"></i> 05.03.2025 — 05.06.2025</div>
+                    <div class="course-actions">
+                        <button class="btn-secondary edit-course" data-course-id="c3"><i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-danger delete-course" data-course-id="c3"><i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn-primary view-lessons" data-course-id="c3"><i class="fas fa-eye"></i> Уроки
+                            (4)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Курс 4 -->
+            <div class="course-card" data-course-id="c4">
+                <div class="course-thumb"><img src="LaravelAPI/public/img/ux.jpg" alt="UI/UX"></div>
+                <div class="course-info">
+                    <div class="course-title">UI/UX дизайн</div>
+                    <div class="course-meta"><i class="far fa-clock"></i> 8 ч</div>
+                    <div class="course-meta">
+                        <i class="fas fa-tag"></i> <span class="price-highlight">4 500 ₽</span>
+                    </div>
+                    <div class="course-meta"><i class="far fa-calendar"></i> 20.02.2025 — 20.03.2025</div>
+                    <div class="course-actions">
+                        <button class="btn-secondary edit-course" data-course-id="c4"><i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-danger delete-course" data-course-id="c4"><i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn-primary view-lessons" data-course-id="c4"><i class="fas fa-eye"></i> Уроки
+                            (2)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Курс 5 -->
+            <div class="course-card" data-course-id="c5">
+                <div class="course-thumb"><img src="LaravelAPI/public/img/go.jpg" alt="Go"></div>
+                <div class="course-info">
+                    <div class="course-title">Golang для бэкенда</div>
+                    <div class="course-meta"><i class="far fa-clock"></i> 16 ч</div>
+                    <div class="course-meta">
+                        <i class="fas fa-tag"></i> <span class="price-highlight">8 500 ₽</span>
+                    </div>
+                    <div class="course-meta"><i class="far fa-calendar"></i> 10.03.2025 — 10.05.2025</div>
+                    <div class="course-actions">
+                        <button class="btn-secondary edit-course" data-course-id="c5"><i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-danger delete-course" data-course-id="c5"><i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn-primary view-lessons" data-course-id="c5"><i class="fas fa-eye"></i> Уроки
+                            (6)
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Курс 6 -->
+            <div class="course-card" data-course-id="c6">
+                <div class="course-thumb"><img src="LaravelAPI/public/img/7053232.jpg" alt="DevOps"></div>
+                <div class="course-info">
+                    <div class="course-title">DevOps практики</div>
+                    <div class="course-meta"><i class="far fa-clock"></i> 24 ч</div>
+                    <div class="course-meta">
+                        <i class="fas fa-tag"></i> <span class="price-highlight">12 900 ₽</span>
+                    </div>
+                    <div class="course-meta"><i class="far fa-calendar"></i> 01.04.2025 — 01.06.2025</div>
+                    <div class="course-actions">
+                        <button class="btn-secondary edit-course" data-course-id="c6"><i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-danger delete-course" data-course-id="c6"><i class="fas fa-trash"></i>
+                        </button>
+                        <button class="btn-primary view-lessons" data-course-id="c6"><i class="fas fa-eye"></i> Уроки
+                            (7)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Детальный блок уроков -->
+        <div id="lessonsDetailBlock" class="hidden">
+            <div class="lessons-list" id="lessonsContainer">
+                <!-- Данные выводятся динамически в JS по нажатию на кнопку раскрытия уроков курса-->
+            </div>
+        </div>
+
+        <!-- Пагинация -->
+        <div class="pagination">
+            <button class="pagination-btn" disabled>
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <button class="pagination-page active">1</button>
+            <button class="pagination-page">2</button>
+            <button class="pagination-page">3</button>
+
+            <button class="pagination-page">8</button>
+
+            <button class="pagination-btn">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Секция СТУДЕНТЫ (новая версия) -->
+    <div id="studentsSection" class="section">
+        <h2><i class="fas fa-users" style="margin-right: 10px; margin-bottom: 30px"></i> Студенты и записи</h2>
+
+        <!-- Панель фильтрации -->
+        <form class="filter-panel" id="filter-form" enctype="multipart/form-data">
+            <div class="filter-group">
+                <label for="search-input"><i class="fas fa-search"></i> Поиск</label>
+                <input id="search-input" name="search" type="search" placeholder="Имя, email студента">
+            </div>
+            <div class="filter-group">
+                <label for="is-completed-input"><i class="fas fa-check-circle"></i> Пройденные</label>
+                <select name="completed" id="is-completed-input">
+                    <option value="-1">Все</option>
+                    <option value="1">Пройден</option>
+                    <option value="0">Не пройден</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="is-certificate-input"><i class="fas fa-certificate"></i> Сертификат</label>
+                <select name="certificate" id="is-certificate-input">
+                    <option value="-1">Все</option>
+                    <option value="1">С сертификатом</option>
+                    <option value="0">Без сертификата</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="is-paid-input"><i class="fas fa-credit-card"></i> Статус оплаты</label>
+                <select name="payment" id="is-paid-input">
+                    <option value="-1">Все</option>
+                    <option value="success">Оплачено</option>
+                    <option value="pending">Ожидает</option>
+                    <option value="failed">Ошибка</option>
+                </select>
+            </div>
+            <div class="filter-actions">
+                <button class="btn-secondary" type="reset" id="btnReset"><i class="fas fa-undo"></i> Сброс</button>
+                <button type="submit" class="btn-primary"><i class="fas fa-filter"></i> Применить</button>
+            </div>
+        </form>
+
+        <!-- Таблица студентов с вложенными курсами -->
+        <table class="students-table">
+            <thead>
+            <tr>
+                <th>Студент <i class="fas fa-sort"></i></th>
+                <th>Курс <i class="fas fa-sort"></i></th>
+                <th>Дата записи <i class="fas fa-sort"></i></th>
+                <th>Статус оплаты <i class="fas fa-sort"></i></th>
+                <th>Пройден <i class="fas fa-sort"></i></th>
+                <th>Сертификат <i class="fas fa-sort"></i></th>
+            </tr>
+            </thead>
+            <tbody class="students-body">
+            <!--Данные выводятся динамически в JS-->
+            </tbody>
+        </table>
+        <div class="text-small mt-4 stat-students-label">Показано 4 студента, всего записей 9</div>
+    </div>
+    <!-- Секция СТАТИСТИКА -->
+    <div id="statisticsSection" class="section">
+        <h2><i class="fas fa-chart-bar" style="margin-bottom: 20px"></i> Статистика и аналитика</h2>
+
+        <!-- Краткие метрики -->
+        <div class="stats-grid">
+            <div class="stat-card"><i class="fas fa-ruble-sign"></i>
+                <div class="stat-value">2 845 000</div>
+                <div class="stat-label">общая выручка</div>
+            </div>
+            <div class="stat-card"><i class="fas fa-users"></i>
+                <div class="stat-value">238</div>
+                <div class="stat-label">студентов</div>
+            </div>
+            <div class="stat-card"><i class="fas fa-book-open"></i>
+                <div class="stat-value">847</div>
+                <div class="stat-label">записей на курсы</div>
+            </div>
+        </div>
+
+        <!-- Вкладки для диаграмм -->
+        <div class="stats-tabs">
+            <button class="stats-tab active" data-stats-tab="revenuePie"><i class="fas fa-chart-pie"></i> Доходы
+            </button>
+            <button class="stats-tab" data-stats-tab="top"><i class="fas fa-chart-bar"></i> Топ-10 курсов</button>
+        </div>
+
+        <!-- Содержимое вкладок -->
+        <div id="revenuePieContent" class="stats-content active">
+            <div class="charts-row">
+                <!-- График выручки -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-line"></i> Динамика выручки</h3>
+                        <form enctype="multipart/form-data" class="chart-controls" id="incomeForm">
+                            <select name="month_from" id="startMonth">
+                                <option value="1">Январь</option>
+                                <option value="2">Февраль</option>
+                                <option value="3">Март</option>
+                                <option value="4">Апрель</option>
+                                <option value="5">Май</option>
+                                <option value="6">Июнь</option>
+                                <option value="7">Июль</option>
+                                <option value="8">Август</option>
+                                <option value="9">Сентябрь</option>
+                                <option value="10">Октябрь</option>
+                                <option value="11">Ноябрь</option>
+                                <option value="12">Декабрь</option>
+                            </select>
+                            <input name="year_from" type="number" id="startYear" value="2024" min="2020" max="2030"
+                                   style="width: 90px;">
+                            <span>—</span>
+                            <select name="month_to" id="endMonth">
+                                <option value="1">Январь</option>
+                                <option value="2">Февраль</option>
+                                <option value="3">Март</option>
+                                <option value="4">Апрель</option>
+                                <option value="5">Май</option>
+                                <option value="6">Июнь</option>
+                                <option value="7">Июль</option>
+                                <option value="8">Август</option>
+                                <option value="9">Сентябрь</option>
+                                <option value="10">Октябрь</option>
+                                <option value="11">Ноябрь</option>
+                                <option value="12">Декабрь</option>
+                            </select>
+                            <input name="year_to" type="number" id="endYear" value="2025" min="2020" max="2030"
+                                   style="width: 90px;">
+                            <!--                            <button type="submit" class="btn-secondary" id="applyRevenueFilter"><i class="fas fa-sync-alt"></i>-->
+                            <!--                                Обновить-->
+                            <!--                            </button>-->
+                        </form>
+                    </div>
+                    <div class="chart-container line-large">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Круговая диаграмма -->
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-pie"></i> Состав выручки по категориям</h3>
+                    <div class="chart-container pie-large">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="topContent" class="stats-content">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3><i class="fas fa-chart-bar"></i> Топ-10 курсов по записям</h3>
+                    <form enctype="multipart/form-data" class="chart-controls" id="topForm">
+                        <select name="period" id="topCoursesPeriod">
+                            <option value="all" selected>Весь период</option>
+                            <option value="year">Год</option>
+                            <option value="month">Месяц</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="chart-container bar-normal">
+                    <canvas id="topCoursesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- МОДАЛЬНЫЕ ОКНА -->
+<!-- Модальное окно курса -->
+<div class="modal-overlay" id="courseModal">
+    <div class="modal">
+        <h3 id="courseModalTitle"><i class="fas fa-graduation-cap"></i> Создание курса</h3>
+        <form id="courseForm" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="courseTitle">Название * (макс. 30)</label>
+                    <input type="text" name="name" id="courseTitle" maxlength="30" placeholder="Например, JavaScript">
+                    <div class="error-message hidden" id="nameError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="coursePrice">Цена * (вещественное)</label>
+                    <input type="number" name="price" id="coursePrice" step="any" min="0" placeholder="5500">
+                    <div class="error-message hidden" id="priceError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="courseStartDate">Дата начала * (дд.мм.гггг)</label>
+                    <input type="date" name="start_date" id="courseStartDate" placeholder="01-01-2025">
+                    <div class="error-message hidden" id="startDateError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="courseEndDate">Дата окончания * (дд.мм.гггг)</label>
+                    <input type="date" name="end_date" id="courseEndDate" placeholder="31-01-2025">
+                    <div class="error-message hidden" id="endDateError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="courseImage">Обложка (JPG/JPEG, макс 2000 КБ) *</label>
+                    <div class="file-upload-wrapper">
+                        <div class="file-upload-button" onclick="document.getElementById('courseImage').click()">
+                            <i class="fas fa-cloud-upload-alt"></i> Выберите файл
+                        </div>
+                        <span id="file-name">Файл не выбран</span>
+                        <div class="image-preview" id="imagePreview"></div>
+                        <input type="file" name="img" id="courseImage" accept=".png,.jpg,.jpeg" style="display: none;">
+                        <div class="error-message hidden" id="imageError"><i class="fas fa-exclamation-circle"></i>
+                            Некорректный
+                            email
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="courseDesc">Описание (макс. 100)</label>
+                    <textarea id="courseDesc" name="description" maxlength="100" placeholder="Краткое описание"
+                              rows="2"></textarea>
+                    <div class="error-message hidden" id="descError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary close-modal" data-modal="courseModal">Отмена</button>
+                <button type="accept" class="btn-primary" id="saveCourseBtn">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Модальное окно урока -->
+<div class="modal-overlay" id="lessonModal">
+    <div class="modal" style="max-width: 700px;">
+        <h3 id="lessonModalTitle"><i class="fas fa-video"></i> Создание урока</h3>
+        <form id="lessonForm" enctype="multipart/form-data">
+            <input type="hidden" name="course_id" id="CourseId">
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="lessonTitle">Заголовок * (макс. 50)</label>
+                    <input type="text" name="name" id="lessonTitle" maxlength="50" placeholder="Новый урок">
+                    <div class="error-message hidden" id="titleError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lessonDuration">Длительность (ч) * (≤4)</label>
+                    <input type="number" name="hours" id="lessonDuration" min="1" max="4" step="1" placeholder="1">
+                    <div class="error-message hidden" id="durationError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="lessonContent">Текстовое содержание *</label>
+                    <textarea id="lessonContent" name="description" rows="3"
+                              placeholder="Подробное описание урока"></textarea>
+                    <div class="error-message hidden" id="descriptionError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+                <div class="form-group full-width">
+                    <label for="lessonVideo">Видео-ссылка</label>
+                    <input type="url" id="lessonVideo" name="video_link" placeholder="https://youtube.com/...">
+                    <div class="error-message hidden" id="videoError"><i class="fas fa-exclamation-circle"></i>
+                        Некорректный
+                        email
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary close-modal" data-modal="lessonModal">Отмена</button>
+                <button type="accept" class="btn-primary" id="saveLessonBtn">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal-overlay" id="confirmModal">
+    <div class="modal" style="max-width: 450px;">
+        <h3><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Подтверждение</h3>
+        <p id="confirmMessage" style="margin-bottom: 20px;">Вы уверены, что хотите удалить этот курс?</p>
+        <div class="modal-actions">
+            <button class="btn-secondary close-modal" data-modal="confirmModal">Отмена</button>
+            <button class="btn-danger" id="confirmDeleteBtn">Удалить</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal-overlay" id="confirmModalCourse">
+    <div class="modal" style="max-width: 450px;">
+        <h3><i class="fas fa-exclamation-triangle" style="color: var(--danger);"></i> Подтверждение</h3>
+        <p id="confirmMessageCourse" style="margin-bottom: 20px;">Вы уверены, что хотите удалить этот курс?</p>
+        <div class="modal-actions">
+            <button class="btn-secondary close-modal" data-modal="confirmModalCourse">Отмена</button>
+            <button class="btn-danger" id="confirmDeleteCourseBtn">Удалить</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
